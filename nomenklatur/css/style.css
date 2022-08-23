@@ -516,11 +516,20 @@ button {
 
 .team .titlepage strong {
      color: #02246a;
-     font-size: 40px;
+     font-size: 30px;
      line-height: 35px;
      font-weight: bold;
      margin-top: -5px;
-     padding-left: 50px;
+     padding-left: 30px;
+     display: inline-block;
+}
+
+.team .titlepage strong.number {
+     color: #02246a;
+     font-size: 20px;
+     font-weight: bold;
+     margin-top: -5px;
+     padding-left: 0;
      display: inline-block;
 }
 
