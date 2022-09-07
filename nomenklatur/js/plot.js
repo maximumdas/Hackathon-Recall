@@ -15,6 +15,13 @@ window.onload = () => {
     "./../csv/SHAP Values - Cluster 4.csv",
   ];
 
+  var urlTreemapClust = [
+    "./../csv/treemap_1.csv",
+    "./../csv/treemap_2.csv",
+    "./../csv/treemap_3.csv",
+    "./../csv/treemap_4.csv",
+  ];
+
   //var url3 = 'XXXX';
   //var url4 = 'XXXX';
   //var url5 = 'XXXX';
@@ -36,10 +43,36 @@ window.onload = () => {
 
   var gd3_div3_2 = d3.select("div[id='shap_cluster']").style({});
 
+  // treemap per cluster
+  var gd3_div3_treemap1 = d3.select("div[id='treemap_clust_1']").style({
+    width: WIDTH_IN_PERCENT_OF_PARENT + "%",
+    "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
+    "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
+  });
+  var gd3_div3_treemap2 = d3.select("div[id='treemap_clust_2']").style({
+    width: WIDTH_IN_PERCENT_OF_PARENT + "%",
+    "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
+    "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
+  });
+  var gd3_div3_treemap3 = d3.select("div[id='treemap_clust_3']").style({
+    width: WIDTH_IN_PERCENT_OF_PARENT + "%",
+    "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
+    "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
+  });
+  var gd3_div3_treemap4 = d3.select("div[id='treemap_clust_4']").style({
+    width: WIDTH_IN_PERCENT_OF_PARENT + "%",
+    "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
+    "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
+  });
+
   var my_Div1 = gd3_div1.node();
   var my_Div2 = gd3_div2.node();
   var shapAll = gd3_div3.node();
   var shapCluster = gd3_div3_2.node();
+  var treemapCluster1 = gd3_div3_treemap1.node();
+  var treemapCluster2 = gd3_div3_treemap2.node();
+  var treemapCluster3 = gd3_div3_treemap3.node();
+  var treemapCluster4 = gd3_div3_treemap4.node();
 
   //URL1 and URL2
   function makeplot() {
@@ -58,6 +91,20 @@ window.onload = () => {
       Plotly.d3.csv(source, (data) => {
         injectShapData(data);
       });
+    });
+
+    // treemap per cluster
+    Plotly.d3.csv(urlTreemapClust[0], function (data) {
+      processData(data, "treemap_clust_1");
+    });
+    Plotly.d3.csv(urlTreemapClust[1], function (data) {
+      processData(data, "treemap_clust_2");
+    });
+    Plotly.d3.csv(urlTreemapClust[2], function (data) {
+      processData(data, "treemap_clust_3");
+    });
+    Plotly.d3.csv(urlTreemapClust[3], function (data) {
+      processData(data, "treemap_clust_4");
     });
   }
 
@@ -202,9 +249,15 @@ window.onload = () => {
     Plotly.Plots.resize(my_Div1);
     Plotly.Plots.resize(my_Div2);
     Plotly.Plots.resize(shapAll);
+    Plotly.Plots.resize(shapCluster);
+    // treemap cluster
+    Plotly.Plots.resize(treemapCluster1);
+    Plotly.Plots.resize(treemapCluster2);
+    Plotly.Plots.resize(treemapCluster3);
+    Plotly.Plots.resize(treemapCluster4);
   };
 
-  shapSelect = window.document.getElementById("shapSelect");
+  let shapSelect = window.document.getElementById("shapSelect");
   shapSelect.addEventListener("change", function (e) {
     if (shapSelect.value == 0) {
       window.document
@@ -219,6 +272,83 @@ window.onload = () => {
         .classList.add("hidden");
       window.document
         .getElementById("shap-per-cluster")
+        .classList.remove("hidden");
+    }
+  });
+
+  let treemapSelect = window.document.getElementById("treemapSelect");
+  treemapSelect.addEventListener("change", function (e) {
+    if (treemapSelect.value == 0) {
+      window.document
+        .getElementById("treemap_wrapper")
+        .classList.remove("hidden");
+      window.document
+        .getElementById("treemap_wrapper_1")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_2")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_3")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_4")
+        .classList.add("hidden");
+    } else if (treemapSelect.value == 1) {
+      window.document.getElementById("treemap_wrapper").classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_1")
+        .classList.remove("hidden");
+      window.document
+        .getElementById("treemap_wrapper_2")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_3")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_4")
+        .classList.add("hidden");
+    } else if (treemapSelect.value == 2) {
+      window.document.getElementById("treemap_wrapper").classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_1")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_2")
+        .classList.remove("hidden");
+      window.document
+        .getElementById("treemap_wrapper_3")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_4")
+        .classList.add("hidden");
+    } else if (treemapSelect.value == 3) {
+      window.document.getElementById("treemap_wrapper").classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_1")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_2")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_3")
+        .classList.remove("hidden");
+      window.document
+        .getElementById("treemap_wrapper_4")
+        .classList.add("hidden");
+    } else if (treemapSelect.value == 4) {
+      window.document.getElementById("treemap_wrapper").classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_1")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_2")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_3")
+        .classList.add("hidden");
+      window.document
+        .getElementById("treemap_wrapper_4")
         .classList.remove("hidden");
     }
   });

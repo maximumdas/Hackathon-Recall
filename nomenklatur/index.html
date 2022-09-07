@@ -96,7 +96,7 @@
       <!-- end header -->
       <!-- banner -->
       <section class="banner_main">
-         <div id="banner1" class="carousel slide" data-ride="carousel" data-aos="fade-up" data-aos-duration="1500">
+         <div id="banner1" class="carousel slide" data-ride="carousel" data-aos="fade-up">
             <ol class="carousel-indicators">
                <li data-target="#banner1" data-slide-to="0" class="active"></li>
                <li data-target="#banner1" data-slide-to="1"></li>
@@ -183,12 +183,12 @@
       <div class="team">
          <div class="container">
             <div class="row d_flex">
-               <div class="col-md-5" data-aos="fade-up" data-aos-duration="1500">
+               <div class="col-md-5" data-aos="fade-up">
                   <div class="team_img">
                      <figure><img src="images/sco.png" alt="#"/></figure>
                   </div>
                </div>
-               <div class="col-md-6 offset-md-1" data-aos="fade-up" data-aos-duration="1500">
+               <div class="col-md-6 offset-md-1" data-aos="fade-left">
                   <div class="titlepage">
                      <h2>Standarisasi Akun Level 6 - Subrincian</h2>
                      <p>Terdapat sebanyak <strong class="number">5796</strong> akun unik dari data APBD, sedangkan
@@ -203,7 +203,7 @@
          <!-- services -->
          <div  class="ideas">
             <div class="container">
-               <div class="row" data-aos="fade-up" data-aos-duration="1500">
+               <div class="row" data-aos="fade-left">
                   <div class="col-md-10">
                      <div class="titlepage">
                         <h2>Clustering</h2>
@@ -211,25 +211,38 @@
                      </div>
                   </div>
                </div>
-               <div id="serv_hover" style="padding-top: 20px" class="row services_box border_trbl" data-aos="fade-up" data-aos-duration="1500">
+               <div id="serv_hover" style="padding-top: 20px" class="row services_box border_trbl" data-aos="fade-up" data-aos-duration="1200">
                   <div class="col-md-12">
                      <div class="ideas_box">
                         <div class="form-group" style="text-align: left">
-                          <label for="exampleFormControlSelect1">Pilih Cluster</label>
-                          <select class="form-control" id="exampleFormControlSelect1">
-                            <option>All</option>
-                            <option>Cluster 1</option>
-                            <option>Cluster 2</option>
-                            <option>Cluster 3</option>
-                            <option>Cluster 4</option>
+                          <label for="treemapSelect">Pilih Cluster</label>
+                          <select class="form-control" id="treemapSelect">
+                            <option value="0">All</option>
+                            <option value="1">Cluster 1</option>
+                            <option value="2">Cluster 2</option>
+                            <option value="3">Cluster 3</option>
+                            <option value="4">Cluster 4</option>
                           </select>
                         </div>
-                        <div class="col-12" id="treemap" class="plotly" align="center" style="width:1200px; height:500px!important">
+                        <div id="treemap_wrapper" class="">
+                           <div class="col-12" id="treemap" class="plotly" align="center" style="width:1200px; height:500px!important"></div>
+                        </div>
+                        <div id="treemap_wrapper_1" class="hidden">
+                           <div class="col-12" id="treemap_clust_1" class="plotly" align="center" style="width:1200px; height:500px!important"></div>
+                        </div>
+                        <div id="treemap_wrapper_2" class="hidden">
+                           <div class="col-12" id="treemap_clust_2" class="plotly" align="center" style="width:1200px; height:500px!important"></div>
+                        </div>
+                        <div id="treemap_wrapper_3" class="hidden">
+                           <div class="col-12" id="treemap_clust_3" class="plotly" align="center" style="width:1200px; height:500px!important"></div>
+                        </div>
+                        <div id="treemap_wrapper_4" class="hidden">
+                           <div class="col-12" id="treemap_clust_4" class="plotly" align="center" style="width:1200px; height:500px!important"></div>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="row" data-aos="fade-up" data-aos-duration="1800" style="margin-top: 50px">
+               <div class="row" data-aos="fade-up" data-aos-duration="1000" style="margin-top: 50px">
                   <div class="col-12 mt-7" style=" border: solid 1px #dfdfdf">
                   <div id="map" style="height: 500px; background: #fff;"></div>
                   </div>
@@ -240,7 +253,7 @@
          <!-- New Ideas  section -->
          <div class="ideas">
             <div class="container">
-               <div class="row" data-aos="fade-up" data-aos-duration="1500">
+               <div class="row" data-aos="fade-right">
                   <div class="col-md-10">
                      <div class="titlepage">
                         <h2> Boxplot IPM</h2>
@@ -248,7 +261,7 @@
                      </div>
                   </div>
                </div>
-               <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1500">
+               <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1000">
                   <div class="row">
                      <div class="col-md-12">
                         <h2 style="text-align: center;">Boxplot IPM</h2> 
@@ -267,7 +280,7 @@
       <!-- testimonial -->
       <div class="testimonial">
          <div class="container">
-            <div class="row">
+            <div class="row" data-aos="fade-left">
                <div class="col-md-12">
                   <div class="titlepage">
                      <h2>Shap value</h2>
@@ -275,7 +288,7 @@
                   </div>
                </div>
             </div>
-            <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1500">
+            <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1200">
                <div class="row">
                   <div class="col-12 px-5">
                      <div class="form-group" style="text-align: left">
@@ -348,15 +361,15 @@
       <footer>
          <div class="footer">
             <div class="container">
-               <div class="row justify-content-between" data-aos="fade-up" data-aos-duration="1000">
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+               <div class="row justify-content-between">
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="zoom-out-right" data-aos-duration="1000">
                      <h3>Navigasi</h3>
                      <ul class="link_menu">
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">Semantic</a></li>
                      </ul>
                   </div>
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="zoom-out-left" data-aos-duration="1000">
                      <h3>The Teams</h3>
                      <ul class="link_menu">
                         <li><a href="https://www.linkedin.com/mwlite/in/leofiro" target="_blank">Aldo Leofiro Irfiansyah</a></li>
