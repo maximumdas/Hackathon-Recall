@@ -251,6 +251,7 @@
                <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1500">
                   <div class="row">
                      <div class="col-md-12">
+                        <h2 style="text-align: center;">Boxplot IPM</h2> 
                         <div class="ideas_box">
                            <div id="boxplot" class="plotly" align="center" style="width:1200px; height:500px;">
 
@@ -274,28 +275,30 @@
                   </div>
                </div>
             </div>
-            <div class="row">
-               <div class="col-md-6 ">
-                  <div class="test_box margin_bottom">
-                     <div id="shap_all" class="plotly" align="center" style="height:500px;"></div>
-                     <!-- <p>psum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum </p> -->
-                     <div class="test_icon">
-                        <!-- <i><img src="images/cos.png" alt="#"/></i> -->
-                        <!-- <i class="bi bi-file-bar-graph-fill" style="font-size: 1.5rem; height: 50px; width: 50px;"></i> -->
-                        <h4>Plot SHAP Value <br> <span class="yellow">Keseluruhan</span></h4> 
+            <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1500">
+               <div class="row">
+                  <div class="col-12 px-5">
+                     <div class="form-group" style="text-align: left">
+                       <label for="shapSelect">Pilih Cluster</label>
+                       <select class="form-control" id="shapSelect">
+                         <option value="0" selected>All</option>
+                         <option value="1" >Per Cluster</option>
+                       </select>
+                     </div>
+                     <div class="" id="shap-all-container">
+                        <h2 style="text-align: center;">Plot SHAP Value <span class="yellow">Keseluruhan</span></h2> 
+                        <div class="ideas_box margin_bottom">
+                           <div id="shap_all" class="plotly" align="center" style="height:500px;"></div>
+                        </div>
+                     </div>
+                     <div class="hidden" id="shap-per-cluster">
+                        <h2 style="text-align: center;">Plot SHAP Value <span class="yellow">Keseluruhan</span></h2> 
+                        <div class="ideas_box margin_bottom">
+                           <div id="shap_cluster" class="plotly" align="center" style="height:750px;"></div>
+                        </div>   
                      </div>
                   </div>
-               </div>
-               <div class="col-md-6">
-                  <div class="test_box">
-                     <div id="shap_cluster" class="plotly" align="center" style="height:500px;"></div>
-                     <!-- <p>psum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum </p> -->
-                     <div class="test_icon">
-                        <!-- <i><img src="images/cos.png" alt="#"/></i> -->
-                        <h4>Plot SHAP Value <br> <span class="yellow">Per-Cluster</span></h4>
-                     </div>
-                  </div>
-               </div>
+               </div>  
             </div>
          </div>
       </div>

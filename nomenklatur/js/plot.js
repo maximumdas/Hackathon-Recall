@@ -1,5 +1,6 @@
 // import BoxplotData from "./boxplot_data_ipm";
 let CLUSTERS = 4;
+let SHAPDATA = [];
 window.onload = () => {
   // Place urls for cvs files here
   var url1 = "./../csv/treemap_all.csv";
@@ -24,12 +25,6 @@ window.onload = () => {
     HEIGHT_IN_PERCENT_OF_PARENT = 97;
 
   var gd3_div1 = d3.select("div[id='treemap']");
-  // .style({
-  //   width: WIDTH_IN_PERCENT_OF_PARENT + "%",
-  //   "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
-  //   height: HEIGHT_IN_PERCENT_OF_PARENT + "vh",
-  //   "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
-  // });
 
   var gd3_div2 = d3.select("div[id='boxplot']").style({
     width: WIDTH_IN_PERCENT_OF_PARENT + "%",
@@ -37,16 +32,14 @@ window.onload = () => {
     "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
   });
 
-  var gd3_div3 = d3.select("div[id='shap_all']").style({
-    // width: WIDTH_IN_PERCENT_OF_PARENT + "%",
-    // "margin-left": (100 - WIDTH_IN_PERCENT_OF_PARENT) / 2 + "%",
-    // height: HEIGHT_IN_PERCENT_OF_PARENT + "vh",
-    // "margin-top": (100 - HEIGHT_IN_PERCENT_OF_PARENT) / 2 + "vh",
-  });
+  var gd3_div3 = d3.select("div[id='shap_all']").style({});
+
+  var gd3_div3_2 = d3.select("div[id='shap_cluster']").style({});
 
   var my_Div1 = gd3_div1.node();
   var my_Div2 = gd3_div2.node();
   var shapAll = gd3_div3.node();
+  var shapCluster = gd3_div3_2.node();
 
   //URL1 and URL2
   function makeplot() {
@@ -59,6 +52,21 @@ window.onload = () => {
     Plotly.d3.csv(urlSHAP, function (data) {
       createShapPlot(data, "shap_all");
     });
+
+    // shap cluster
+    urlSHAPClust.forEach((source) => {
+      Plotly.d3.csv(source, (data) => {
+        injectShapData(data);
+      });
+    });
+  }
+
+  function injectShapData(data) {
+    SHAPDATA.push(data);
+    if (SHAPDATA.length == 4) {
+      createShapPlot(SHAPDATA, "shap_cluster", false);
+      SHAPDATA = [];
+    }
   }
 
   function pickGroup(allRow, group) {
@@ -71,47 +79,68 @@ window.onload = () => {
 
   // Shap value
   function createShapPlot(data, divName, all = true) {
+    var layout = {
+      // title: "Bar Chart",
+      yaxis: {
+        automargin: true,
+      },
+    };
     if (all) {
       let xlabel = [],
         yPosValues = [];
       yNegValues = [];
-      baseNeg = [];
+      barColors = [];
       for (var i = 0; i < data.length; i++) {
         xlabel.push(data[i].Variable);
-        if (data[i].Sign == "red") {
-          yPosValues.push(data[i].SHAP_abs);
-        } else {
-          yNegValues.push(data[i].SHAP_abs);
-          baseNeg.push(-1 * data[i].SHAP_abs);
-        }
+        yPosValues.push(data[i].SHAP_abs);
+        barColors.push(data[i].Sign);
       }
       var data = [
         {
           type: "bar",
-          x: xlabel,
-          y: yNegValues,
-          base: baseNeg,
-          hovertemplate: "%{base}",
-          marker: {
-            color: "red",
-          },
-          name: "Negative SHAP",
-        },
-        {
-          type: "bar",
-          x: xlabel,
-          y: yPosValues,
+          x: yPosValues,
+          y: xlabel,
           base: 0,
           hovertemplate: "%{value}",
+          orientation: "h",
           marker: {
-            color: "blue",
+            color: barColors,
           },
-          name: "Possitive SHAP",
+          name: "SHAP Value",
         },
       ];
+    } else {
+      let traces = [];
+      for (var i = 0; i < data.length; i++) {
+        let xlab = [],
+          yval = [],
+          barcol = [];
+        for (var j = 0; j < data[i].length; j++) {
+          xlab.push(data[i][j].Variable);
+          yval.push(data[i][j].SHAP_abs);
+          barcol.push(data[i][j].Sign);
+        }
+        traces.push({
+          type: "bar",
+          x: yval,
+          y: xlab,
+          base: 0,
+          hovertemplate: "%{value}",
+          orientation: "h",
+          marker: {
+            color: barcol,
+          },
+          yaxis: "y" + (i + 1),
+          xaxis: "x" + (i + 1),
+          name: "SHAP Value Cluster " + (i + 1),
+        });
+      }
 
-      Plotly.newPlot(divName, data);
+      layout["grid"] = { rows: 4, columns: 1, pattern: "independent" };
+      layout["showlegend"] = false;
+      data = traces;
     }
+    Plotly.newPlot(divName, data, layout);
   }
 
   // Boxplot
@@ -121,7 +150,7 @@ window.onload = () => {
       clusts.push({
         y: pickGroup(data, i),
         type: "box",
-        name: "Cluster " + i,
+        name: "Cluster " + (i + 1),
       });
     }
     Plotly.newPlot(divName, clusts);
@@ -132,7 +161,6 @@ window.onload = () => {
     let labels = [],
       parents = [],
       values = [];
-    console.log(data);
     for (var i = 0; i < data.length; i++) {
       labels.push(data[i].label);
       parents.push("APBD");
@@ -175,4 +203,23 @@ window.onload = () => {
     Plotly.Plots.resize(my_Div2);
     Plotly.Plots.resize(shapAll);
   };
+
+  shapSelect = window.document.getElementById("shapSelect");
+  shapSelect.addEventListener("change", function (e) {
+    if (shapSelect.value == 0) {
+      window.document
+        .getElementById("shap-all-container")
+        .classList.remove("hidden");
+      window.document
+        .getElementById("shap-per-cluster")
+        .classList.add("hidden");
+    } else if (shapSelect.value == 1) {
+      window.document
+        .getElementById("shap-all-container")
+        .classList.add("hidden");
+      window.document
+        .getElementById("shap-per-cluster")
+        .classList.remove("hidden");
+    }
+  });
 };
