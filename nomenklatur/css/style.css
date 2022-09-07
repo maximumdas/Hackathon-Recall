@@ -770,7 +770,7 @@ button {
      color: #ffca56;
 }
 
-.test_box p {
+.test_box p, .test_box .plotly {
      font-size: 16px;
      line-height: 28px;
      color: #222221;
