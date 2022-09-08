@@ -412,20 +412,76 @@
 
       <!-- leaflet js map -->
       <script>
+         function addPopup(feature, layer) {
+            var popupContent = feature.properties.KAB_KOTA;
+            layer.bindPopup(popupContent);
+
+            layer.on('mouseover', function (e) {
+               this.openPopup(e.latlng);
+               let currentSelect = e.target;
+               currentSelect.setStyle(
+                  {
+                     color: currentSelect.options.fillColor, 
+                     fillOpacity: 1, 
+                     weight: 2
+                  })
+               e.target.bringToFront();
+            });
+            layer.on('mouseout', function (e) {
+               this.closePopup();
+               let currentSelect = e.target;
+               currentSelect.setStyle(
+                  {
+                     color: "#ced4da", 
+                     fillOpacity: 0.7, 
+                     weight: 1
+                  })
+               e.target.bringToFront();
+            });
+         }
+
          var map = L.map('map', {scrollWheelZoom: false}).setView([-0.8522536,118.3330412], 5);
-         // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-         //    maxZoom: 19,
-         //    attribution: '© OpenStreetMap'
-         // }).addTo(map);
+         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+         }).addTo(map);
          L.geoJSON(MapData, {
             style: function(feature) {
                switch (feature.properties.cluster) {
-                     case 0: return {color: "#4AAFFF"};
-                     case 1:   return {color: "#173470"};
-                     case 2:   return {color: "#007CFE"};
-                     case 3:   return {color: "#02256B"};
-                     default: return {color: "#D62727"}
+                     case 0: return {
+                        color: "#ced4da", 
+                        fillColor: "#fd7e14", 
+                        fillOpacity: 0.7, 
+                        weight: 1
+                     };
+                     case 1:   return {
+                        color: "#ced4da", 
+                        fillColor: "#6610f2", 
+                        fillOpacity: 0.7, 
+                        weight: 1
+                     };
+                     case 2:   return {
+                        color: "#ced4da", 
+                        fillColor: "#198754", 
+                        fillOpacity: 0.7, 
+                        weight: 1
+                     };
+                     case 3:   return {
+                        color: "#ced4da", 
+                        fillColor: "#0d6efd", 
+                        fillOpacity: 0.7, 
+                        weight: 1
+                     };
+                     default: return {
+                        color: "#ced4da", 
+                        fillColor: "#D62727", 
+                        fillOpacity: 0.7, 
+                        weight: 1
+                     }
                }
+            },
+            onEachFeature: (feature, layer) => {
+               addPopup(feature, layer);
             }
          }).addTo(map);
       </script>
