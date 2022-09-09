@@ -402,7 +402,7 @@
       <script src="js/custom.js"></script>
       <script src="js/aos.js"></script>
       <script src="js/plot.js"></script>
-      <script src="js/peta_selindo_data.js"></script>
+      <script src="js/peta_selindo_data_new.js"></script>
       <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
       integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
       crossorigin=""></script>
@@ -412,9 +412,38 @@
 
       <!-- leaflet js map -->
       <script>
+         function sortObjKey(obj) {
+            const innerHtML = '<div><h3>Alokasi Anggaran</h3> __body__ </div>';
+            // get numeric key
+            let sortable=[]
+            Object.keys(obj).map((elem, index) => {
+               if (index > 7 && index <= 42) {
+                  sortable.push([elem, obj[elem] == null ? 0: obj[elem]]);
+               }
+            })
+            let body = '';
+            sortable.sort((a, b) => {
+               return b[1] - a[1]
+            });
+            sortable.forEach((element, index) => {
+               if (index >= 5) return
+               body+=`<div><b>${element[0]}: </b> ${element[1].toFixed(2)}%</div>`
+            })
+            return innerHtML.replace('__body__', body);
+         }
          function addPopup(feature, layer) {
-            var popupContent = feature.properties.KAB_KOTA;
-            layer.bindPopup(popupContent);
+            var popupContent = feature.properties;
+            sortObjKey(popupContent)
+            layer.bindPopup(`<div>
+               <div style="margin-bottom: 15px">
+               <h3>Info Wilayah</h3>
+               <b>Kab/Kota:</b> ${feature.properties.Kab_Kota == null ? "Null" : feature.properties.Kab_Kota} </br>
+               <b>Nama Pemda:</b> ${feature.properties.namapemda == null ? "Null": feature.properties.namapemda} </br>
+               <b>Provinsi:</b> ${feature.properties.Provinsi == null ? "Null": feature.properties.Provinsi} </br>
+               <b>Cluster:</b> ${feature.properties.cluster} </br>
+               </div>
+               ${sortObjKey(popupContent)}
+            </div>`);
 
             layer.on('mouseover', function (e) {
                this.openPopup(e.latlng);
@@ -445,6 +474,7 @@
             maxZoom: 19,
             attribution: '© OpenStreetMap'
          }).addTo(map);
+
          L.geoJSON(MapData, {
             style: function(feature) {
                switch (feature.properties.cluster) {
@@ -484,6 +514,21 @@
                addPopup(feature, layer);
             }
          }).addTo(map);
+
+         /*Legend specific*/
+         let legend = L.control({ position: "bottomleft" });
+         legend.onAdd = function(map) {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML += "<h4>Warna Cluster</h4>";
+            div.innerHTML += '<i style="background: #fd7e14"></i><span>Cluster 1</span><br>';
+            div.innerHTML += '<i style="background: #6610f2"></i><span>Cluster 2</span><br>';
+            div.innerHTML += '<i style="background: #198754"></i><span>Cluster 3</span><br>';
+            div.innerHTML += '<i style="background: #0d6efd"></i><span>Cluster 4</span><br>';
+            div.innerHTML += '<i style="background: #D62727"></i><span>No Data</span><br>';
+            return div;
+         }
+
+         legend.addTo(map);
       </script>
    </body>
 </html>
