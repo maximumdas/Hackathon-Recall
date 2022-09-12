@@ -22,10 +22,6 @@ window.onload = () => {
     "./../csv/treemap_4.csv",
   ];
 
-  //var url3 = 'XXXX';
-  //var url4 = 'XXXX';
-  //var url5 = 'XXXX';
-
   // Next piece of code deals with responsiveness
   var d3 = Plotly.d3;
   var WIDTH_IN_PERCENT_OF_PARENT = 100,
