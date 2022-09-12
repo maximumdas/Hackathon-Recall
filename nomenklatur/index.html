@@ -280,6 +280,12 @@
       <!-- testimonial -->
       <div class="testimonial">
          <div class="container">
+         </div>
+      </div>
+      <!-- end testimonial -->
+      <!--  contact -->
+      <div class="contact">
+         <div class="container">
             <div class="row" data-aos="fade-left">
                <div class="col-md-12">
                   <div class="titlepage">
@@ -290,7 +296,7 @@
             </div>
             <div id="serv_hover" class="services_box border_trbl" data-aos="fade-up" data-aos-duration="1200">
                <div class="row">
-                  <div class="col-12 px-5">
+                  <div class="col-12 px-5" style="border: 0px">
                      <div class="form-group" style="text-align: left">
                        <label for="shapSelect">Pilih Cluster</label>
                        <select class="form-control" id="shapSelect">
@@ -312,47 +318,6 @@
                      </div>
                   </div>
                </div>  
-            </div>
-         </div>
-      </div>
-      <!-- end testimonial -->
-      <!--  contact -->
-      <div class="contact">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="titlepage">
-                     <h2>Request A Call Back</h2>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-               <div class="col-md-6">
-                  <form id="request" class="main_form">
-                     <div class="row">
-                        <div class="col-md-12 ">
-                           <input class="contactus" placeholder="Name" type="type" name="Name"> 
-                        </div>
-                        <div class="col-md-12">
-                           <input class="contactus" placeholder="Email" type="type" name="Email"> 
-                        </div>
-                        <div class="col-md-12">
-                           <input class="contactus" placeholder="Phone Number" type="type" name="Phone Number">                          
-                        </div>
-                        <div class="col-md-12">
-                           <input class="contactus1" placeholder="Message" type="type" Message="Name">
-                        </div>
-                        <div class="col-md-12">
-                           <button class="send_btn">Send</button>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-               <div class="col-md-6">
-                  <div class="map">
-                     <figure><img src="images/map_img.png" alt="#"/></figure>
-                  </div>
-               </div>
             </div>
          </div>
       </div>
@@ -440,7 +405,7 @@
                <b>Kab/Kota:</b> ${feature.properties.Kab_Kota == null ? "Null" : feature.properties.Kab_Kota} </br>
                <b>Nama Pemda:</b> ${feature.properties.namapemda == null ? "Null": feature.properties.namapemda} </br>
                <b>Provinsi:</b> ${feature.properties.Provinsi == null ? "Null": feature.properties.Provinsi} </br>
-               <b>Cluster:</b> ${feature.properties.cluster} </br>
+               <b>Cluster:</b> ${feature.properties.cluster? feature.properties.cluster + 1:null} </br>
                </div>
                ${sortObjKey(popupContent)}
             </div>`);

@@ -31,6 +31,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
    </head>
    <!-- body -->
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <body class="main-layout inner_header about_page">
       <!-- loader  -->
       <!-- <div class="loader_bg">
@@ -82,25 +83,10 @@
             </div>
          </div>
       </header>
-      <!-- end header inner -->
-      <!-- end header -->
-     <!-- <div class="yellow_darkbg">
-        <div class="container">
-           <div class="row">
-              <div class="col-md-12">
-                 <div class="titlepage">
-                  <h2>About Us</h2>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </div> -->
-
-
       <!-- team -->
       <div class="team">
-         <div class="container" data-aos="fade-up" data-aos-duration="1000">
-            <div class="row">
+         <div class="container">
+            <div class="row" data-aos="fade-up" data-aos-duration="1000">
                <div class="col-md-12">
                   <div class="titlepage">
                      <h2>Periksa Standar Nomenklatur</h2>
@@ -109,39 +95,28 @@
             </div>
             
             <div class="row">
-               <div class="col-md-6">
+               <div class="col-md-6" data-aos="fade-left">
                   <form id="request" class="main_form">
-                     <div class="row">
+                     <div class="row"  data-aos="fade-left">
                         <div class="col-md-12 ">
-                           <input class="contactus" placeholder="Input Nomenklatur Akun" type="text" name="nama-nomenklatur"> 
+                           <input id="periksa-input" class="contactus" placeholder="Input Nomenklatur Akun" type="text" name="nama-nomenklatur"> 
                         </div>
-                        <div class="col-md-12">
-                           <button class="sub_btn">KIRIM</button>
+                        <div class="col-md-12" id="periksa-btn">
+                           <button class="sub_btn">PERIKSA</button>
                         </div>
                      </div>
                   </form>
                </div>
-               <div class="col-md-6">
+               <div class="col-md-6" data-aos="fade-right" id="image-iddle">
                   <div class="map">
                      <figure><img src="images/search-iddle.jpg" alt="#"/></figure>
                   </div>
                </div>
+               <div class="col-md-5 ml-5 hidden" data-aos="fade-right" id="search-result">
+                  <ul class="list-group" id="list-result">
+                   </ul>
+               </div>
             </div>
-            <!-- <div class="row d_flex">
-              
-               <div class="col-md-6">
-                  <div class="titlepage">
-                      <h3>PROJECTS COMPLETED</h3>
-                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod enim tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                     <a class="read_more" href="#"> Read More</a>
-                  </div>
-               </div>
-                <div class="col-md-5 offset-md-1">
-                  <div class="team_img">
-                     <figure><img src="images/sco.png" alt="#"/></figure>
-                  </div>
-               </div>
-            </div> -->
          </div>
       </div>
          <!-- team -->
@@ -151,7 +126,7 @@
          <div class="footer">
             <div class="container">
                <div class="row justify-content-between">
-                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-duration="1000">
+                  <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6" data-aos="fade-up">
                      <h3>Navigasi</h3>
                      <ul class="link_menu">
                         <li><a href="index.html">Home</a></li>
@@ -192,6 +167,70 @@
       <script src="js/aos.js"></script>
       <script>
          AOS.init()
+      </script>
+      <script>
+         let periksaBtn = document.getElementById("periksa-btn");
+         periksaBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            document.getElementById("search-result").classList.add("hidden");
+            document.getElementById("image-iddle").classList.remove("hidden");
+            Swal.fire({
+               title: "Mohon tunggu...",
+               text: "Sedang mengambil data",
+               icon: 'info',
+               didOpen: () => {
+                  Swal.showLoading()
+               },
+               allowOutsideClick: () => !Swal.isLoading(),
+            })
+            // const formData = new FormData();
+            // formData.append("sentence", document.getElementById("periksa-input").value);
+            fetch("http://localhost:5050/", {
+                  method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                  mode: 'cors', // no-cors, *cors, same-origin
+                  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                  headers: {
+                     'Content-Type': 'application/json'
+                     // 'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  redirect: 'follow', // manual, *follow, error
+                  referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                  body: JSON.stringify({
+                     sentence: document.getElementById("periksa-input").value
+                  }) // body data type must match "Content-Type" header
+               }).then(result => {
+                  return result.json();
+               }).then(res => {
+                  res = res.filter(elem => elem['Cosine Similiarity Score'] >= 0.56)
+                  if (res.length == 0) {
+                     Swal.fire({
+                        title: "Tidak ditemukan hasil rekomendasi untuk input",
+                        text: `"${document.getElementById("periksa-input").value}"`,
+                        icon: "warning"
+                     })
+                  } else {
+                     const listUl = document.getElementById("list-result");
+                     let liElement = ""
+                     res.forEach(element => {
+                        liElement += `
+                           <li class="list-group-item d-flex justify-content-between align-items-center my-1">
+                           <span>${element.nama_akun} <br/> ${element.kode_akun}</span>
+                           <span class="badge badge-primary badge-pill">${(element["Cosine Similiarity Score"] * 100).toFixed(2)}%</span>
+                           </li>`
+                     });
+                     listUl.innerHTML = liElement;
+                     document.getElementById("search-result").classList.remove("hidden");
+                     document.getElementById("image-iddle").classList.add("hidden");
+                  }
+                  Swal.close();
+               }).catch(err => {
+                  Swal.fire({
+                        title: "Terjadi kesalahan",
+                        text: `"${err.response?.data ?? "Tidak dapat terhubung dengan server."}"`,
+                        icon: "danger"
+                     })
+               });
+         })
       </script>
    </body>
 </html>
