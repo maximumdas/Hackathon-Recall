@@ -8,7 +8,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>SI AKUR</title>
+      <title>Standict</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -214,7 +214,7 @@
                      res.forEach(element => {
                         liElement += `
                            <li class="list-group-item d-flex justify-content-between align-items-center my-1">
-                           <span>${element.nama_akun} <br/> ${element.kode_akun}</span>
+                           <span>${element.nomenklatur} <br/> ${element.kode_subkegiatan}</span>
                            <span class="badge badge-primary badge-pill">${(element["Cosine Similiarity Score"] * 100).toFixed(2)}%</span>
                            </li>`
                      });

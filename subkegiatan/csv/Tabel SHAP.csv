@@ -1,0 +1,8 @@
+Variable,SHAP_abs,Corr,Sign
+program penyelenggaraan majelis pendidikan aceh,0.060376475,-0.463210765,blue
+program pendidikan dayah,0.109363531,0.663883677,red
+program pengembangan bahasa dan sastra,0.11939909,-0.026830013,blue
+program pengendalian perizinan pendidikan,0.277450629,0.01186421,red
+program pengelolaan pendidikan,0.284421592,0.093518704,red
+program pendidik dan tenaga kependidikan,0.368966199,-0.01276035,blue
+program pengembangan kurikulum,0.479810854,0.533282392,red
